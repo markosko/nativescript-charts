@@ -1,0 +1,26 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.demo",
+    "tns-ios": {
+      "version": "2.2.1"
+    },
+    "tns-android": {
+      "version": "2.4.0-next-2016-09-27-1167"
+    }
+  },
+  "dependencies": {
+    "nativescript-charts": "file:..",
+    "nativescript-dev-typescript": "^0.3.2",
+    "tns-core-modules": "^2.4.0-2016-09-27-4228",
+    "tns-platform-declarations": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-traverse": "6.7.6",
+    "babel-types": "6.7.7",
+    "babylon": "6.7.0",
+    "filewalker": "0.1.2",
+    "lazy": "1.0.11",
+    "nativescript-dev-typescript": "^0.3.2",
+    "typescript": "^1.8.10"
+  }
+}

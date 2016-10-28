@@ -1,0 +1,17 @@
+android {
+    productFlavors {
+        "nativescriptscharts" {
+            dimension "nativescriptscharts"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
+dependencies {
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1@aar'
+}
