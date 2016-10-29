@@ -9,7 +9,6 @@
     }
   },
   "dependencies": {
-    "nativescript-charts": "file:..",
     "nativescript-dev-typescript": "^0.3.2",
     "tns-core-modules": "^2.4.0-2016-09-27-4228",
     "tns-platform-declarations": "^2.3.0"
