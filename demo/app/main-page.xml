@@ -1,4 +1,12 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" xlmns:LineChart="./nativescript-charts/line-chart">
-  <StackLayout id="lay" height="100%">
+  <StackLayout>
+    <StackLayout id="lay" height="50%">
+    </StackLayout>
+    <StackLayout orientation="horizontal">
+      <Button text="clearData" tap="clearData"></Button>
+      <Button text="clearGraph" tap="clearGraph"></Button>
+      <Button text="addLine" tap="addLine"></Button>
+    </StackLayout>
   </StackLayout>
+  
 </Page>

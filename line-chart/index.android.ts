@@ -4,11 +4,11 @@ import {Color} from "color";
 declare var com:any;
 declare var java:any;
 
-
 var LineDataSet =     com.github.mikephil.charting.data.LineDataSet;
 var LineData =        com.github.mikephil.charting.data.LineData;
 var Entry =           com.github.mikephil.charting.data.Entry;
 var ArrayList =       java.util.ArrayList;
+var Legend =          com.github.mikephil.charting.components.Legend;
 export class LineChart extends View {
 
   _android: any;
@@ -31,10 +31,6 @@ export class LineChart extends View {
   public invalidate(){
     this._nativeView.invalidate();
   }
-  public setData(entryList){
-    this._android.setData(entryList);
-    this.invalidate();
-  }
   
   //var xAxis = line.android.getXAxis();
     //xAxis.setGranularity(1);
@@ -50,12 +46,15 @@ export class LineChart extends View {
     })
     
     var dataset = new LineDataSet(entries,lineData.name);
-
+    
     if(typeof lineData.color == "string" && Color.isValid(lineData.color)){
-      dataset.setColor(new Color(<string>lineData.color).argb);
+      var color = new Color(<string>lineData.color).argb;
+      dataset.setColor(color);
+      dataset.setHighlightColor(color);
     }
     else if(typeof lineData.color == "number" && Color.isValid(lineData.color)){
-      dataset.setColor(lineData);
+      dataset.setColor(lineData.color);
+      dataset.setHighlightColor(lineData.color);
     }
     if(this._android.getData() == null || this._android.getData().getDataSetCount()==0){
       var lineDatasets = new ArrayList();
@@ -66,8 +65,22 @@ export class LineChart extends View {
     else{
       this._android.getData().addDataSet(dataset);
     }
+    
+    //.setPosition(Legend.RIGHT_OF_CHART);
+    
     this._android.getLegend().setEnabled(true);
+    /*this._android.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+    this._android.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.MIDDLE);*/
     this.invalidate();
+  }
+
+  public clear(){
+    this._android.clear();
+  }
+
+  public clearData(){
+    //this._android.clearValues();
+    console.dump(this._android);
   }
 
   constructor() {

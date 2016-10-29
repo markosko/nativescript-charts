@@ -10,7 +10,7 @@ declare var com:any;
 declare var java:any;
 declare var Array:any;
 
-
+var line;
 
 export function pageLoaded(args: observable.EventData) {
     // Get the event sender
@@ -19,7 +19,7 @@ export function pageLoaded(args: observable.EventData) {
     let page = <pages.Page>args.object;
     var StackLayout:any=page.getViewById("lay");
     
-    var line = new LineChart();
+    line = new LineChart();
     line.height=700;
     StackLayout.addChild(line);
 
@@ -30,6 +30,7 @@ export function pageLoaded(args: observable.EventData) {
         {x:8,y:4.5},
         {x:10,y:9}
     ];
+    
     var lineData = {
         lineData: points,
         color:"red",
@@ -54,4 +55,29 @@ export function pageLoaded(args: observable.EventData) {
 
     
 
+}
+
+export function addLine(args: observable.EventData){
+    var points2  = [
+        {x:1,y:(Math.random() * 10) + 1},
+        {x:3,y:(Math.random() * 10) + 1},
+        {x:7,y:(Math.random() * 10) + 1},
+        {x:8,y:(Math.random() * 10) + 1},
+        {x:10,y:(Math.random() * 10) + 1}
+    ];
+      
+    var lineData2 = {
+        lineData: points2,
+        color:"green",
+        name:"test"
+    };
+
+    line.addLine(lineData2);
+}
+
+export function clearData(args: observable.EventData){
+    line.clearData();
+}
+export function clearGraph(args: observable.EventData){
+    line.clearGraph();
 }
