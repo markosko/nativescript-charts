@@ -5,10 +5,11 @@
       "version": "2.2.1"
     },
     "tns-android": {
-      "version": "2.4.0-next-2016-09-27-1167"
+      "version": "2.5.0-next-2016-10-28-1331"
     }
   },
   "dependencies": {
+    "nativescript-charts": "file:..",
     "nativescript-dev-typescript": "^0.3.2",
     "tns-core-modules": "^2.4.0-2016-09-27-4228",
     "tns-platform-declarations": "^2.3.0"

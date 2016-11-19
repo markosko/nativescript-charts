@@ -17,7 +17,7 @@
     "preparedemo": "npm run build && cd demo && tns plugin remove nativescript-nativescript-charts && tns plugin add .. && tns install",
     "setup": "npm i && cd demo && npm i && cd .. && npm run build && cd demo && tns plugin add .. && cd ..",
     "postclone": "npm i && node scripts/postclone.js",
-    "rebuild":"cd demo && tns plugin remove nativescript-charts && tns plugin add .. && tns run android"
+    "rebuild":"tsc && cd demo && tns plugin remove nativescript-charts && tns plugin add .. && tns run android"
   },
   "repository": {
     "type": "git",

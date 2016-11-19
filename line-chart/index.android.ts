@@ -1,8 +1,22 @@
 import {View} from "ui/core/view";
 import {Color} from "color";
-
+import {LegendHorizontalAlignment,LegendVerticalAlignment} from "../components/legend";
 declare var com:any;
 declare var java:any;
+
+
+export declare interface IPoint{
+  x: number,
+  y: number 
+}
+
+export declare interface ILineChart{
+    color?: string|number,
+    
+    lineData:Array<IPoint>,
+    name:string
+}
+
 
 var LineDataSet =     com.github.mikephil.charting.data.LineDataSet;
 var LineData =        com.github.mikephil.charting.data.LineData;
@@ -23,38 +37,38 @@ export class LineChart extends View {
 
   //how we create the UI of our View
   public _createUI() {
-    
-    this._android = new com.github.mikephil.charting.charts.LineChart(this._context);
-    
-    
+    this._android = new com.github.mikephil.charting.charts.LineChart(this._context); 
   }
   public invalidate(){
     this._nativeView.invalidate();
   }
   
-  //var xAxis = line.android.getXAxis();
+  //var xAxis = line
     //xAxis.setGranularity(1);
+  public clear(){
+    //this._android.setData(null);
+  }
 
+  public clearData(){
+    this._android.getData().clearValues();
+    this.invalidate();
+  }
 
   public addLine(lineData:ILineChart){
-    
     var entries = new ArrayList();
     lineData.lineData.forEach((point:IPoint)=>{
       entries.add(
         new Entry(point.x,point.y)
       );
     })
-    
     var dataset = new LineDataSet(entries,lineData.name);
-    
     if(typeof lineData.color == "string" && Color.isValid(lineData.color)){
       var color = new Color(<string>lineData.color).argb;
       dataset.setColor(color);
-      dataset.setHighlightColor(color);
     }
-    else if(typeof lineData.color == "number" && Color.isValid(lineData.color)){
-      dataset.setColor(lineData.color);
-      dataset.setHighlightColor(lineData.color);
+    else if(typeof lineData.color == "number"){
+      var color = new Color(<number>lineData.color).argb
+      dataset.setColor(color);
     }
     if(this._android.getData() == null || this._android.getData().getDataSetCount()==0){
       var lineDatasets = new ArrayList();
@@ -65,38 +79,17 @@ export class LineChart extends View {
     else{
       this._android.getData().addDataSet(dataset);
     }
-    
-    //.setPosition(Legend.RIGHT_OF_CHART);
-    
-    this._android.getLegend().setEnabled(true);
-    /*this._android.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-    this._android.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.MIDDLE);*/
+
     this.invalidate();
   }
 
-  public clear(){
-    this._android.clear();
+  public getXAxis(){
+    return this._android.getXAxis();
   }
-
-  public clearData(){
-    //this._android.clearValues();
-    console.dump(this._android);
-  }
+  
+ 
 
   constructor() {
         super();
     }
-}
-
-
-interface IPoint{
-  x: number,
-  y: number 
-}
-
-interface ILineChart{
-    color?: string|number,
-    
-    lineData:Array<IPoint>,
-    name:string
 }

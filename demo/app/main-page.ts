@@ -11,18 +11,20 @@ declare var java:any;
 declare var Array:any;
 
 var line;
-
+var i=0;
 export function pageLoaded(args: observable.EventData) {
     // Get the event sender
    
 
     let page = <pages.Page>args.object;
     var StackLayout:any=page.getViewById("lay");
-    
+    console.log(1)
     line = new LineChart();
+    console.log(2)
     line.height=700;
+    console.log(3)
     StackLayout.addChild(line);
-
+    console.log(4)
     var points  = [
         {x:1,y:1},
         {x:3,y:5},
@@ -36,7 +38,7 @@ export function pageLoaded(args: observable.EventData) {
         color:"red",
         name:"test"
     };
-
+    console.log(5)
     line.addLine(lineData);
     var points2  = [
         {x:1,y:4},
@@ -50,7 +52,7 @@ export function pageLoaded(args: observable.EventData) {
         color:"green",
         name:"test"
     };
-
+    console.log(6)
     line.addLine(lineData2);
 
     
@@ -65,13 +67,16 @@ export function addLine(args: observable.EventData){
         {x:8,y:(Math.random() * 10) + 1},
         {x:10,y:(Math.random() * 10) + 1}
     ];
+      var color= Math.floor((Math.random()*16777215) - 16777216);
       
+      console.log("color: " + color);
+
     var lineData2 = {
         lineData: points2,
-        color:"green",
-        name:"test"
+        color:color,
+        name:"test"+i
     };
-
+    i++;
     line.addLine(lineData2);
 }
 

@@ -2,7 +2,7 @@
 *.js.map
 *.log
 !scripts/*.js
-.vscode
+.vscode/
 demo/app/*.js
 demo/*.d.ts
 demo/lib

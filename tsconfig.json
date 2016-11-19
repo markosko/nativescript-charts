@@ -14,7 +14,13 @@
       "node_modules/tns-platform-declarations/tns-core-modules/org.nativescript.widgets.d.ts",
       "nativescript-charts.common.ts",
       "nativescript-charts.android.ts", 
-      "nativescript-charts.ios.ts"
+      "nativescript-charts.ios.ts",
+      "line-chart/index.android.ts"
+      
     ],
-    "compileOnSave": true
+    "compileOnSave": true,
+    "include":[
+      "components/**/*",
+      "line-chart/**/*"
+    ]
 }
