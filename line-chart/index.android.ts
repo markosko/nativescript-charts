@@ -1,6 +1,6 @@
 import {View} from "ui/core/view";
 import {Color} from "color";
-import {LegendHorizontalAlignment,LegendVerticalAlignment} from "../components/legend";
+export {LegendHorizontalAlignment,LegendVerticalAlignment} from "../components/legend";
 declare var com:any;
 declare var java:any;
 

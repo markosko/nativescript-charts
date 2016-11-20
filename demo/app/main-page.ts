@@ -2,8 +2,9 @@ import * as observable from "data/observable";
 import * as pages from "ui/page";
 import colorModule = require("color");
 var Color = colorModule.Color;
-import {LineChart} from "nativescript-charts/line-chart";
-
+import {LineChart,LegendHorizontalAlignment}  from "nativescript-charts/line-chart";
+//LineChart.LegendHorizontalAlignment;
+//import * as legend from "nativescript-charts/components/legend";
 
 // Event handler for Page "loaded" event attached in main-page.xml
 declare var com:any;
@@ -19,7 +20,7 @@ export function pageLoaded(args: observable.EventData) {
     let page = <pages.Page>args.object;
     var StackLayout:any=page.getViewById("lay");
     console.log(1)
-    line = new LineChart();
+    line = <LineChart>(new LineChart());
     console.log(2)
     line.height=700;
     console.log(3)

@@ -1,4 +1,5 @@
 import { View } from "ui/core/view";
+export { LegendHorizontalAlignment, LegendVerticalAlignment } from "../components/legend";
 export interface IPoint {
     x: number;
     y: number;
