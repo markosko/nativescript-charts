@@ -46,12 +46,14 @@ export class LineChart extends View {
   //var xAxis = line
     //xAxis.setGranularity(1);
   public clear(){
-    //this._android.setData(null);
+    this._android.clear();
   }
 
   public clearData(){
-    this._android.getData().clearValues();
-    this.invalidate();
+    if(this._android.getData()){
+      this._android.getData().clearValues();
+      this.invalidate();
+    }
   }
 
   public addLine(lineData:ILineChart){

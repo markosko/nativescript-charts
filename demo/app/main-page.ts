@@ -85,5 +85,5 @@ export function clearData(args: observable.EventData){
     line.clearData();
 }
 export function clearGraph(args: observable.EventData){
-    line.clearGraph();
+    line.clear();
 }
