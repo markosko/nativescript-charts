@@ -1,23 +1,17 @@
+import { ILineSeries, IPoint, LegendForm, LegendHorizontalAlignment, LegendVerticalAlignment, ILineChart, XPosition, YPosition, Axis, XAxis, YAxis, YSide } from "./line-chart.common";
+export { ILineSeries, IPoint, LegendForm, LegendHorizontalAlignment, LegendVerticalAlignment, ILineChart, XPosition, YPosition, Axis, XAxis, YAxis, YSide };
 import { View } from "ui/core/view";
-export { LegendHorizontalAlignment, LegendVerticalAlignment } from "../components/legend";
-export interface IPoint {
-    x: number;
-    y: number;
-}
-export interface ILineChart {
-    color?: string | number;
-    lineData: Array<IPoint>;
-    name: string;
-}
 export declare class LineChart extends View {
+    private lineChartArgs;
     _android: any;
-    android: any;
-    _nativeView: any;
+    readonly android: any;
+    readonly _nativeView: any;
     _createUI(): void;
     invalidate(): void;
     clear(): void;
     clearData(): void;
-    addLine(lineData: ILineChart): void;
+    addLine(lineData: ILineSeries): any;
     getXAxis(): any;
-    constructor();
+    getYAxis(): void;
+    constructor(lineChartArgs: ILineChart);
 }

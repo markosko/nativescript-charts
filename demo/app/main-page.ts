@@ -2,7 +2,7 @@ import * as observable from "data/observable";
 import * as pages from "ui/page";
 import colorModule = require("color");
 var Color = colorModule.Color;
-import {LineChart,LegendHorizontalAlignment}  from "nativescript-charts/line-chart";
+import {LineChart,LegendHorizontalAlignment,XPosition,YPosition}  from "nativescript-charts/line-chart";
 //LineChart.LegendHorizontalAlignment;
 //import * as legend from "nativescript-charts/components/legend";
 
@@ -19,13 +19,29 @@ export function pageLoaded(args: observable.EventData) {
 
     let page = <pages.Page>args.object;
     var StackLayout:any=page.getViewById("lay");
-    console.log(1)
-    line = <LineChart>(new LineChart());
-    console.log(2)
+    //console.log(1)
+    var linechartOpts={
+        Legend:{
+            enabled:true
+        },
+        XAxis:{
+            /*position:XPosition.BOTTOM*/            
+        },
+        YAxis:{
+            drawZeroLine:true,
+            zeroLineWidth:10,
+            zeroLineColor:"green",
+            /*position:YPosition.INSIDE_CHART,*/
+            textSize:20,
+            textColor:"red"
+        }
+    }
+    line = <LineChart>(new LineChart(linechartOpts));
+    //console.log(2)
     line.height=700;
-    console.log(3)
+    //console.log(3)
     StackLayout.addChild(line);
-    console.log(4)
+    //console.log(4)
     var points  = [
         {x:1,y:1},
         {x:3,y:5},
@@ -39,7 +55,7 @@ export function pageLoaded(args: observable.EventData) {
         color:"red",
         name:"test"
     };
-    console.log(5)
+    //console.log(5)
     line.addLine(lineData);
     var points2  = [
         {x:1,y:4},
@@ -53,7 +69,7 @@ export function pageLoaded(args: observable.EventData) {
         color:"green",
         name:"test"
     };
-    console.log(6)
+    //console.log(6)
     line.addLine(lineData2);
 
     
@@ -79,6 +95,7 @@ export function addLine(args: observable.EventData){
     };
     i++;
     line.addLine(lineData2);
+
 }
 
 export function clearData(args: observable.EventData){

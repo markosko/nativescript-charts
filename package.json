@@ -1,12 +1,12 @@
 {
   "name": "nativescript-charts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Your awesome NativeScript plugin.",
   "main": "nativescript-charts.js",
   "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
-      "android": "2.2.0"
+      "android": "2.4.0"
     }
   },
   "scripts": {

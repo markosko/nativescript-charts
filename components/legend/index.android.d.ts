@@ -8,3 +8,15 @@ export declare enum LegendVerticalAlignment {
     CENTER,
     BOTTOM,
 }
+export declare enum LegendForm {
+    SQUARE,
+    CIRCLE,
+    LINE,
+}
+export interface ILegend {
+    enabled?: boolean;
+    textColor?: string | number;
+    wordWrap?: boolean;
+    maxSize?: number;
+    form?: LegendForm;
+}
