@@ -86,8 +86,11 @@ export function addLine(args: observable.EventData){
         {x:8,y:(Math.random() * 100) - 79},
         {x:10,y:(Math.random() * 100) - 59}
     ];
-      var color= Math.floor((Math.random()*16777215) - 16777216);
-      var textColors=[Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216)];
+        var color= Math.floor((Math.random()*16777215) - 16777216);
+        var textColors=[
+          Math.floor((Math.random()*16777215) - 16777216),
+          Math.floor((Math.random()*16777215) - 16777216)          
+        ];
       //console.log("color: " + color);
 
     var lineData2:ILineSeries = {
@@ -95,12 +98,10 @@ export function addLine(args: observable.EventData){
         color:color,
         name:"test"+i,
         valueTextSize:10,
-        /*valueTextColor:color,*/
         valueTextColors:textColors,
         circleColor:color,
         drawCircleHole:false,
         circleRadius:4
-
     };
     i++;
     line.addLine(lineData2);
