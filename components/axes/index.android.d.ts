@@ -9,11 +9,6 @@ export declare enum XPosition {
     TOP_INSIDE,
     BOTTOM_INSIDE,
 }
-export declare enum YSide {
-    LEFT = 0,
-    RIGHT = 1,
-    BOTH = 2,
-}
 export interface Axis {
     enabled?: boolean;
     drawLabels?: boolean;
@@ -47,7 +42,10 @@ export interface YAxis extends Axis {
     zeroLineColor?: string | number;
     spaceTop?: number;
     spaceBottom?: number;
-    side?: YSide;
+}
+export interface RightYAxis extends YAxis {
+}
+export interface LeftYAxis extends YAxis {
 }
 export interface XAxis extends Axis {
     position?: XPosition;

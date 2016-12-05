@@ -2,7 +2,7 @@ import * as observable from "data/observable";
 import * as pages from "ui/page";
 import colorModule = require("color");
 var Color = colorModule.Color;
-import {LineChart,LegendHorizontalAlignment,XPosition,YPosition}  from "nativescript-charts/line-chart";
+import {LineChart,LegendHorizontalAlignment,XPosition,YPosition,ILineChart,ILineSeries}  from "nativescript-charts/line-chart";
 //LineChart.LegendHorizontalAlignment;
 //import * as legend from "nativescript-charts/components/legend";
 
@@ -20,18 +20,20 @@ export function pageLoaded(args: observable.EventData) {
     let page = <pages.Page>args.object;
     var StackLayout:any=page.getViewById("lay");
     //console.log(1)
-    var linechartOpts={
+    var linechartOpts:ILineChart={
         Legend:{
             enabled:true
         },
         XAxis:{
+            textSize:12,
+            textColor:"green"
             /*position:XPosition.BOTTOM*/            
         },
-        YAxis:{
-            drawZeroLine:true,
-            zeroLineWidth:10,
-            zeroLineColor:"green",
-            /*position:YPosition.INSIDE_CHART,*/
+        RightYAxis:{
+            textSize:15,
+            textColor:"blue"
+        },
+        LeftYAxis:{
             textSize:20,
             textColor:"red"
         }
@@ -64,10 +66,10 @@ export function pageLoaded(args: observable.EventData) {
         {x:8,y:10},
         {x:10,y:1}
     ];
-    var lineData2 = {
+    var lineData2:ILineSeries = {
         lineData: points2,
         color:"green",
-        name:"test"
+        name:"test",  
     };
     //console.log(6)
     line.addLine(lineData2);
@@ -78,20 +80,27 @@ export function pageLoaded(args: observable.EventData) {
 
 export function addLine(args: observable.EventData){
     var points2  = [
-        {x:1,y:(Math.random() * 10) + 1},
-        {x:3,y:(Math.random() * 10) + 1},
-        {x:7,y:(Math.random() * 10) + 1},
-        {x:8,y:(Math.random() * 10) + 1},
-        {x:10,y:(Math.random() * 10) + 1}
+        {x:1,y:(Math.random() * 100) - 49},
+        {x:3,y:(Math.random() * 100) - 49},
+        {x:7,y:(Math.random() * 100) - 19},
+        {x:8,y:(Math.random() * 100) - 79},
+        {x:10,y:(Math.random() * 100) - 59}
     ];
       var color= Math.floor((Math.random()*16777215) - 16777216);
-      
-      console.log("color: " + color);
+      var textColors=[Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216),Math.floor((Math.random()*16777215) - 16777216)];
+      //console.log("color: " + color);
 
-    var lineData2 = {
+    var lineData2:ILineSeries = {
         lineData: points2,
         color:color,
-        name:"test"+i
+        name:"test"+i,
+        valueTextSize:10,
+        /*valueTextColor:color,*/
+        valueTextColors:textColors,
+        circleColor:color,
+        drawCircleHole:false,
+        circleRadius:4
+
     };
     i++;
     line.addLine(lineData2);

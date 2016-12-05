@@ -12,11 +12,11 @@ export enum XPosition{
      TOP_INSIDE = com.github.mikephil.charting.components.XAxis.TOP_INSIDE,
      BOTTOM_INSIDE = com.github.mikephil.charting.components.XAxis.BOTTOM_INSIDE
 }
-export enum YSide{
+/*export enum YSide{
     LEFT,
     RIGHT,
     BOTH
-}
+}*/
 export interface Axis{
     enabled?:boolean,
     drawLabels?:boolean,
@@ -47,9 +47,11 @@ export interface YAxis extends Axis{
     zeroLineWidth?:number,
     zeroLineColor?:string|number,
     spaceTop?:number,
-    spaceBottom?:number,
-    side?:YSide
+    spaceBottom?:number
 }
+export interface RightYAxis extends YAxis{}
+export interface LeftYAxis extends YAxis{}
+
 export interface XAxis extends Axis{
     position?:XPosition,
     labelRotationAngle?:number

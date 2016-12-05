@@ -1,5 +1,5 @@
-import {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,YAxis,YSide} from "./line-chart.common";
-export {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,YAxis,YSide}
+import {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis} from "./line-chart.common";
+export {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis}
 import {View} from "ui/core/view";
 import {Color} from "color";
 import {resolveColor} from "../helper";
@@ -26,6 +26,127 @@ export class LineChart extends View {
     //how we create the UI of our View
     public _createUI() {
         this._android = new com.github.mikephil.charting.charts.LineChart(this._context);
+        this.setChart();
+    }
+    public invalidate(){
+        this._nativeView.invalidate();
+    }
+
+    //var xAxis = line
+      //xAxis.setGranularity(1);
+    public clear(){
+        this._android.clear();
+        this._android.notifyDataSetChanged();
+        this.setChart();
+    }
+
+    public clearData(){
+        if(this._android.getData()){
+            this._android.getData().clearValues();
+            this._android.notifyDataSetChanged();
+            this.invalidate();
+        }
+    }
+
+    public addLine(lineData:ILineSeries){
+        var entries = new ArrayList();
+        lineData.lineData.forEach((point:IPoint)=>{
+            entries.add(
+                new Entry(point.x,point.y)
+            );
+        })
+        var dataset = new LineDataSet(entries,lineData.name);
+        dataset.setColor(resolveColor(lineData.color));
+        if('valueTextColor' in lineData){
+            dataset.setValueTextColor(resolveColor(lineData.valueTextColor));
+        }
+        if('valueTextColors' in lineData){
+            var colors = new ArrayList();
+            lineData.valueTextColors.forEach((item)=>{
+                colors.add(new java.lang.Integer(resolveColor(item)));
+            });
+            dataset.setValueTextColors(colors);
+        }
+        if('valueTextSize' in lineData){
+            dataset.setValueTextSize(lineData.valueTextSize);
+        }
+        if('drawValues' in lineData){
+            dataset.setDrawValues(lineData.drawValues);
+        }
+        if('highlightEnabled' in lineData){
+            dataset.setHighlightEnabled(lineData.highlightEnabled);
+        }
+        if('drawVerticalHighlightIndicator' in lineData){
+            dataset.setDrawVerticalHighlightIndicator(lineData.drawVerticalHighlightIndicator);
+        }
+        if('drawHorizontalHighlightIndicator' in lineData){
+            dataset.setDrawHorizontalHighlightIndicator(lineData.drawHorizontalHighlightIndicator);
+        }
+        if('highLightColor' in lineData){
+            dataset.setHighLightColor(resolveColor(lineData.highLightColor));
+        }
+        if('drawHighlightIndicators' in lineData){
+            dataset.setDrawHighlightIndicators(lineData.drawHighlightIndicators);
+        }
+        if('highlightLineWidth' in lineData){
+            dataset.setHighlightLineWidth(lineData.highlightLineWidth);
+        }
+        if('fillColor' in lineData){
+            dataset.setFillColor(resolveColor(lineData.fillColor));
+        }
+        if('fillAlpha' in lineData){
+            if(lineData.fillAlpha <= 255 && lineData.fillAlpha >= 0){
+                dataset.setFillAlpha(lineData.fillAlpha);
+            }
+        }
+        if('drawFilled' in lineData){
+            dataset.setDrawFilled(lineData.drawFilled);
+        }
+        if('lineWidth' in lineData){
+            dataset.setLineWidth(lineData.lineWidth);
+        }
+        if('circleRadius' in lineData){
+            dataset.setCircleRadius(lineData.circleRadius);
+        }
+        if('circleColor' in lineData){
+            dataset.setCircleColor(resolveColor(lineData.circleColor));
+        }
+        if('circleColorHole' in lineData){
+            dataset.setCircleColorHole(resolveColor(lineData.circleColorHole));
+        }
+        if('drawCircleHole' in lineData){
+            dataset.setDrawCircleHole(lineData.drawCircleHole);
+        }
+        if('enableDashedLine' in lineData){
+            dataset.enableDashedLine(lineData.enableDashedLine.lineLength, lineData.enableDashedLine.spaceLength, lineData.enableDashedLine.phase);
+        }
+
+        if(this._android.getData() == null || this._android.getData().getDataSetCount()==0){
+            var lineDatasets = new ArrayList();
+            lineDatasets.add(dataset);
+            var lineDatas= new LineData(lineDatasets);
+            this._android.setData(lineDatas);
+        }
+        else{
+            this._android.getData().addDataSet(dataset);
+        }
+        this._android.getData().notifyDataChanged();
+        this._android.notifyDataSetChanged();
+        this.invalidate();
+    }
+
+    public getXAxis(){
+        return this._android.getXAxis();
+    }
+    public getYAxis(){
+        //return this._android.getYAxis();
+    }
+
+    private resolveColors(color){
+        return resolveColor(color);
+    }
+
+    private setChart(){
         if('Legend' in this.lineChartArgs){
             let legend = this._android.getLegend();
             let legendArgs = this.lineChartArgs.Legend;
@@ -106,147 +227,85 @@ export class LineChart extends View {
                 XAxis.setLabelRotationAngle(xAxisArgs.labelRotationAngle);
             }
         }
-        if('YAxis' in this.lineChartArgs){
-            let yAxisArgs = this.lineChartArgs.YAxis
-            let side;
-            if('side' in yAxisArgs){
-                if(yAxisArgs.side==YSide.LEFT)side=[1];
-                else if(yAxisArgs.side==YSide.RIGHT)side=[2];
-                else if(yAxisArgs.side==YSide.BOTH)side=[1,2];
-            }else{
-                side=[1,2];
-            }
-            let YAxis;
-            for(var axisSide of side ){
-                if(axisSide==1){
-                    YAxis = this._android.getAxisLeft();
-                }else{
-                    YAxis = this._android.getAxisRight();
-                }
-                if('enabled' in yAxisArgs){
-                    YAxis.setEnabled(yAxisArgs.enabled);
-                }
-                if('drawLabels' in yAxisArgs){
-                    YAxis.setDrawLabels(yAxisArgs.drawLabels);
-                }
-                if('drawAxisLine' in yAxisArgs){
-                    YAxis.setDrawAxisLine(yAxisArgs.drawAxisLine);
-                }
-                if('drawGridLines' in yAxisArgs){
-                    YAxis.setDrawGridLines(yAxisArgs.drawGridLines);
-                }
-                if('axisMaximum' in yAxisArgs){
-                    YAxis.setAxisMaximum(yAxisArgs.axisMaximum);
-                }
-                if('axisMinimum' in yAxisArgs){
-                    YAxis.setAxisMinimum(yAxisArgs.axisMinimum);
-                }
-                if('inverted' in yAxisArgs){
-                    YAxis.setInverted(yAxisArgs.inverted);
-                }
-                if('spaceTop' in yAxisArgs){
-                    if(yAxisArgs.spaceTop <= 100 && yAxisArgs.spaceTop >= 0) YAxis.setSpaceTop(yAxisArgs.spaceTop);
-                }
-                if('spaceBottom' in yAxisArgs){
-                    if(yAxisArgs.spaceBottom <= 100 && yAxisArgs.spaceBottom >= 0) YAxis.setSpaceBottom(yAxisArgs.spaceBottom);
-                }
-                if('showOnlyMinMax' in yAxisArgs){
-                    YAxis.setShowOnlyMinMax(yAxisArgs.showOnlyMinMax);
-                }
-                if('labelCount' in yAxisArgs){
-                    YAxis.setLabelCount(yAxisArgs.labelCount.count,yAxisArgs.labelCount.force);
-                }
-                if('granularity' in yAxisArgs){
-                    YAxis.setGranularity(yAxisArgs.granularity);
-                }
-                if('granularityEnabled' in yAxisArgs){
-                    YAxis.setGranularityEnabled(yAxisArgs.granularityEnabled);
-                }
-                if('textColor' in yAxisArgs){
-                    YAxis.setTextColor(resolveColor(yAxisArgs.textColor));
-                }
-                if('textSize' in yAxisArgs){
-                    YAxis.setTextSize(yAxisArgs.textSize);
-                }
-                if('gridColor' in yAxisArgs){
-                    YAxis.setGridColor(resolveColor(yAxisArgs.gridColor));
-                }
-                if('gridLineWidth' in yAxisArgs){
-                    YAxis.setGridLineWidth(yAxisArgs.gridLineWidth);
-                }
-                if('enableGridDashedLine' in yAxisArgs){
-                    YAxis.enableGridDashedLine(yAxisArgs.enableGridDashedLine.lineLength, yAxisArgs.enableGridDashedLine.spaceLength, yAxisArgs.enableGridDashedLine.phase);
-                }
-                if('position' in yAxisArgs){
-                    YAxis.setPosition(yAxisArgs.position);
-                }
-                if('drawZeroLine' in yAxisArgs){
-                    YAxis.setDrawZeroLine(yAxisArgs.drawZeroLine);
-                }
-                if('zeroLineWidth' in yAxisArgs){
-                    YAxis.setZeroLineWidth(yAxisArgs.zeroLineWidth);
-                }
-                if('zeroLineColor' in yAxisArgs){
-                    YAxis.setZeroLineColor(resolveColor(yAxisArgs.zeroLineColor));
-                }
-            }
+        if('RightYAxis' in this.lineChartArgs){
+            let yAxisArgs = this.lineChartArgs.RightYAxis;
+            let YAxis = this._android.getAxisRight();
+            this.setYAxis(yAxisArgs,YAxis);
+        }
+        if('LeftYAxis' in this.lineChartArgs){
+            let yAxisArgs = this.lineChartArgs.LeftYAxis;
+            let YAxis = this._android.getAxisLeft();
+            this.setYAxis(yAxisArgs,YAxis);
         }
     }
-    public invalidate(){
-        this._nativeView.invalidate();
-    }
-
-    //var xAxis = line
-      //xAxis.setGranularity(1);
-    public clear(){
-        this._android.clear();
-    }
-
-    public clearData(){
-        if(this._android.getData()){
-            this._android.getData().clearValues();
-            this.invalidate();
+    private setYAxis(yAxisArgs,YAxis){
+        if('enabled' in yAxisArgs){
+            YAxis.setEnabled(yAxisArgs.enabled);
+        }
+        if('drawLabels' in yAxisArgs){
+            YAxis.setDrawLabels(yAxisArgs.drawLabels);
+        }
+        if('drawAxisLine' in yAxisArgs){
+            YAxis.setDrawAxisLine(yAxisArgs.drawAxisLine);
+        }
+        if('drawGridLines' in yAxisArgs){
+            YAxis.setDrawGridLines(yAxisArgs.drawGridLines);
+        }
+        if('axisMaximum' in yAxisArgs){
+            YAxis.setAxisMaximum(yAxisArgs.axisMaximum);
+        }
+        if('axisMinimum' in yAxisArgs){
+            YAxis.setAxisMinimum(yAxisArgs.axisMinimum);
+        }
+        if('inverted' in yAxisArgs){
+            YAxis.setInverted(yAxisArgs.inverted);
+        }
+        if('spaceTop' in yAxisArgs){
+            if(yAxisArgs.spaceTop <= 100 && yAxisArgs.spaceTop >= 0) YAxis.setSpaceTop(yAxisArgs.spaceTop);
+        }
+        if('spaceBottom' in yAxisArgs){
+            if(yAxisArgs.spaceBottom <= 100 && yAxisArgs.spaceBottom >= 0) YAxis.setSpaceBottom(yAxisArgs.spaceBottom);
+        }
+        if('showOnlyMinMax' in yAxisArgs){
+            YAxis.setShowOnlyMinMax(yAxisArgs.showOnlyMinMax);
+        }
+        if('labelCount' in yAxisArgs){
+            YAxis.setLabelCount(yAxisArgs.labelCount.count,yAxisArgs.labelCount.force);
+        }
+        if('granularity' in yAxisArgs){
+            YAxis.setGranularity(yAxisArgs.granularity);
+        }
+        if('granularityEnabled' in yAxisArgs){
+            YAxis.setGranularityEnabled(yAxisArgs.granularityEnabled);
+        }
+        if('textColor' in yAxisArgs){
+            YAxis.setTextColor(resolveColor(yAxisArgs.textColor));
+        }
+        if('textSize' in yAxisArgs){
+            YAxis.setTextSize(yAxisArgs.textSize);
+        }
+        if('gridColor' in yAxisArgs){
+            YAxis.setGridColor(resolveColor(yAxisArgs.gridColor));
+        }
+        if('gridLineWidth' in yAxisArgs){
+            YAxis.setGridLineWidth(yAxisArgs.gridLineWidth);
+        }
+        if('enableGridDashedLine' in yAxisArgs){
+            YAxis.enableGridDashedLine(yAxisArgs.enableGridDashedLine.lineLength, yAxisArgs.enableGridDashedLine.spaceLength, yAxisArgs.enableGridDashedLine.phase);
+        }
+        if('position' in yAxisArgs){
+            YAxis.setPosition(yAxisArgs.position);
+        }
+        if('drawZeroLine' in yAxisArgs){
+            YAxis.setDrawZeroLine(yAxisArgs.drawZeroLine);
+        }
+        if('zeroLineWidth' in yAxisArgs){
+            YAxis.setZeroLineWidth(yAxisArgs.zeroLineWidth);
+        }
+        if('zeroLineColor' in yAxisArgs){
+            YAxis.setZeroLineColor(resolveColor(yAxisArgs.zeroLineColor));
         }
     }
-
-    public addLine(lineData:ILineSeries):any{
-        var entries = new ArrayList();
-        lineData.lineData.forEach((point:IPoint)=>{
-            entries.add(
-                new Entry(point.x,point.y)
-            );
-        })
-        var dataset = new LineDataSet(entries,lineData.name);
-        /*if(typeof lineData.color == "string" && Color.isValid(lineData.color)){
-          var color = new Color(<string>lineData.color).argb;
-          dataset.setColor(color);
-        }
-        else if(typeof lineData.color == "number"){
-          var color = new Color(<number>lineData.color).argb
-          dataset.setColor(color);
-        }*/
-        dataset.setColor(resolveColor(lineData.color));
-        if(this._android.getData() == null || this._android.getData().getDataSetCount()==0){
-            var lineDatasets = new ArrayList();
-            lineDatasets.add(dataset);
-            var lineDatas= new LineData(lineDatasets);
-            this._android.setData(lineDatas);
-        }
-        else{
-            this._android.getData().addDataSet(dataset);
-        }
-        this._android.getData().notifyDataChanged();
-        //this._android.getData().notifyDataSetChanged();
-        this.invalidate();
-    }
-
-    public getXAxis(){
-        return this._android.getXAxis();
-    }
-    public getYAxis(){
-        //return this._android.getYAxis();
-    }
-
 
     constructor(private lineChartArgs:ILineChart) {
         super();
