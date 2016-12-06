@@ -1,6 +1,9 @@
 import { ILegend, LegendHorizontalAlignment, LegendVerticalAlignment, LegendForm } from "../components/legend";
 import { XPosition, YPosition, Axis, XAxis, LeftYAxis, RightYAxis } from "../components/axes";
+import { BaseChartSettings } from "../components/chart";
 import { Dataset } from "../components/dataset";
+import { View } from "ui/core/view";
+import { Property } from "ui/core/dependency-observable";
 export { ILegend, LegendHorizontalAlignment, LegendVerticalAlignment, LegendForm };
 export { XPosition, YPosition, Axis, XAxis, LeftYAxis, RightYAxis };
 export interface ILineChart {
@@ -8,6 +11,7 @@ export interface ILineChart {
     XAxis?: XAxis;
     LeftYAxis?: LeftYAxis;
     RightYAxis?: RightYAxis;
+    BaseSettings?: BaseChartSettings;
 }
 export interface IPoint {
     x: number;
@@ -33,4 +37,14 @@ export interface ILineSeries extends Dataset {
         spaceLength: number;
         phase: number;
     };
+}
+export declare class LineChartCommon extends View {
+    protected lineChartArgs: ILineChart;
+    static chartSettingsProperty: Property;
+    static chartDataProperty: Property;
+    chartSettings: ILineChart;
+    chartData: Array<ILineSeries>;
+    constructor(lineChartArgs: ILineChart);
+    protected resolveColors(color: any): number;
+    protected setDataset(dataset: any, lineData: any): void;
 }

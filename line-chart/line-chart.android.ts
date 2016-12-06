@@ -1,8 +1,39 @@
-import {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis} from "./line-chart.common";
+import {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis,LineChartCommon} from "./line-chart.common";
 export {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis}
-import {View} from "ui/core/view";
 import {Color} from "color";
+import { PropertyChangeData } from "ui/core/dependency-observable";
+import { PropertyMetadata } from "ui/core/proxy";
 import {resolveColor} from "../helper";
+//global.moduleMerge(common, exports);
+
+
+
+function onChartSettingsPropertyChanged(data: PropertyChangeData) {
+    var LineChart = <LineChart>data.object;
+    if (!LineChart.android) {
+        return;
+    }
+    LineChart.setLineChartArgs(data.newValue);
+    console.log("Chart settings changed.");
+    //console.dump(data);
+    /*.setPenColor(new Color(data.newValue).android)*/;
+}
+
+function onChartDataPropertyChanged(data: PropertyChangeData) {
+    var LineChart = <LineChart>data.object;
+    if (!LineChart.android) {
+        return;
+    }
+    LineChart.setData(<Array<ILineSeries>>data.newValue);
+    console.log("Chart settings changed.");
+    //console.dump(data);
+    /*.setPenColor(new Color(data.newValue).android)*/;
+}
+
+
+(<PropertyMetadata>LineChartCommon.chartSettingsProperty.metadata).onSetNativeValue = onChartSettingsPropertyChanged;
+(<PropertyMetadata>LineChartCommon.chartDataProperty.metadata).onSetNativeValue = onChartDataPropertyChanged;
+
 declare var com:any;
 declare var java:any;
 
@@ -11,9 +42,8 @@ var LineData =        com.github.mikephil.charting.data.LineData;
 var Entry =           com.github.mikephil.charting.data.Entry;
 var ArrayList =       java.util.ArrayList;
 var Legend =          com.github.mikephil.charting.components.Legend;
-
-export class LineChart extends View {
-    _android: any;
+export class LineChart extends LineChartCommon {
+    private _android: any;
 
     //typically, you'd have a .common.ts for common stuff
     //and a .android.ts that extends common for android-specific stuff (same for ios)
@@ -22,30 +52,38 @@ export class LineChart extends View {
     //provide getters to native component that this NativeScript component represents
     get android() { return this._android; }
     get _nativeView() { return this._android; }
+    
+
 
     //how we create the UI of our View
     public _createUI() {
-        this._android = new com.github.mikephil.charting.charts.LineChart(this._context);
+        this._android = new com.github.mikephil.charting.charts.LineChart(this._context,null);
         this.setChart();
+
     }
     public invalidate(){
         this._nativeView.invalidate();
     }
 
-    //var xAxis = line
-      //xAxis.setGranularity(1);
     public clear(){
-        this._android.clear();
-        this._android.notifyDataSetChanged();
+        this._nativeView.clear();
+        this._nativeView.notifyDataSetChanged();
         this.setChart();
     }
 
     public clearData(){
-        if(this._android.getData()){
-            this._android.getData().clearValues();
-            this._android.notifyDataSetChanged();
+        if(this._nativeView.getData()){
+            this._nativeView.getData().clearValues();
+            this._nativeView.notifyDataSetChanged();
             this.invalidate();
         }
+    }
+    
+    public setLineChartArgs(lineChartArgs:ILineChart){
+        this.lineChartArgs=lineChartArgs;
+        this.setChart();
+        this._nativeView.notifyDataSetChanged();
+        this.invalidate();
     }
 
     public addLine(lineData:ILineSeries){
@@ -56,6 +94,57 @@ export class LineChart extends View {
             );
         })
         var dataset = new LineDataSet(entries,lineData.name);
+        this.setDataset(dataset,lineData);
+
+        if(this._android.getData() == null || this._android.getData().getDataSetCount()==0){
+            var lineDatasets = new ArrayList();
+            lineDatasets.add(dataset);
+            var lineDatas= new LineData(lineDatasets);
+            this._android.setData(lineDatas);
+        }
+        else{
+            this._android.getData().addDataSet(dataset);
+        }
+        this._android.getData().notifyDataChanged();
+        this._android.notifyDataSetChanged();
+        this.invalidate();
+    }
+
+    public setData(chartData:Array<ILineSeries>){
+        if(typeof chartData == "undefined" || chartData == {} || chartData.length==0)
+            return ;
+        var lineDatasets = new ArrayList();
+        chartData.forEach((lineSerie:ILineSeries)=>{
+            var entries = new ArrayList();
+            lineSerie.lineData.forEach((point:IPoint)=>{
+                entries.add(
+                    new Entry(point.x,point.y)
+                );
+            })
+            var dataset = new LineDataSet(entries,lineSerie.name);
+            this.setDataset(dataset,lineSerie);
+            lineDatasets.add(dataset);
+        });
+        var lineDatas= new LineData(lineDatasets);
+        this._android.setData(lineDatas);
+        this._android.getData().notifyDataChanged();
+        this._android.notifyDataSetChanged();
+        this.invalidate();
+    }
+
+
+
+    public getXAxis(){
+        return this._android.getXAxis();
+    }
+    public getRightYAxis(){
+        return this._android.getAxisRight();
+    }
+    public getLeftYAxis(){
+        return this._android.getAxisLeft();
+    }
+
+    /*private setDataset(lineData,dataset){
         dataset.setColor(resolveColor(lineData.color));
         if('valueTextColor' in lineData){
             dataset.setValueTextColor(resolveColor(lineData.valueTextColor));
@@ -66,6 +155,7 @@ export class LineChart extends View {
                 colors.add(new java.lang.Integer(resolveColor(item)));
             });
             dataset.setValueTextColors(colors);
+            colors=null;
         }
         if('valueTextSize' in lineData){
             dataset.setValueTextSize(lineData.valueTextSize);
@@ -121,32 +211,56 @@ export class LineChart extends View {
             dataset.enableDashedLine(lineData.enableDashedLine.lineLength, lineData.enableDashedLine.spaceLength, lineData.enableDashedLine.phase);
         }
 
-        if(this._android.getData() == null || this._android.getData().getDataSetCount()==0){
-            var lineDatasets = new ArrayList();
-            lineDatasets.add(dataset);
-            var lineDatas= new LineData(lineDatasets);
-            this._android.setData(lineDatas);
-        }
-        else{
-            this._android.getData().addDataSet(dataset);
-        }
-        this._android.getData().notifyDataChanged();
-        this._android.notifyDataSetChanged();
-        this.invalidate();
-    }
-
-    public getXAxis(){
-        return this._android.getXAxis();
-    }
-    public getYAxis(){
-        //return this._android.getYAxis();
-    }
-
-    private resolveColors(color){
-        return resolveColor(color);
-    }
+    }*/
 
     private setChart(){
+        if(typeof this.lineChartArgs == "undefined"){
+            return;
+        }
+        if('BaseSettings' in this.lineChartArgs){
+            let chart = this._android; 
+            let baseSettings = this.lineChartArgs.BaseSettings;
+            if('backgroundColor' in baseSettings){
+                chart.setBackgroundColor(resolveColor(baseSettings.backgroundColor));
+            }
+            if('enabledDescription' in baseSettings){
+                chart.getDescription().setEnabled(baseSettings.enabledDescription);
+            }
+            if('description' in baseSettings){
+                chart.getDescription().setText(baseSettings.description);
+            }
+            if('descriptionColor' in baseSettings){
+                chart.getDescription().setTextColor(baseSettings.descriptionColor);
+            }
+            if('descriptionPosition' in baseSettings){
+                if(typeof baseSettings.descriptionPosition.x != "undefined" && typeof baseSettings.descriptionPosition.y != "undefined")
+                    chart.getDescription().setPosition(baseSettings.descriptionPosition.x,baseSettings.descriptionPosition.y)
+            }
+            if('descriptionTextSize' in baseSettings){
+                chart.getDescription().setTextSize(baseSettings.descriptionTextSize);
+            }
+            if('noDataText' in baseSettings){
+                chart.setNoDataText(baseSettings.noDataText);
+            }
+            if('drawGridBackground' in baseSettings){
+                chart.setDrawGridBackground(baseSettings.drawGridBackground);
+            }
+            if('gridBackgroundColor' in baseSettings){
+                chart.setGridBackgroundColor(resolveColor(baseSettings.gridBackgroundColor));
+            }
+            if('drawBorders' in baseSettings){
+                chart.setDrawBorders(baseSettings.drawBorders);
+            }
+            if('borderColor' in baseSettings){
+                chart.setBorderColor(resolveColor(baseSettings.borderColor));
+            }
+            if('borderWidth' in baseSettings){
+                chart.setBorderWidth(baseSettings.borderWidth);
+            }
+            if('maxVisibleValueCount' in baseSettings){
+                chart.setMaxVisibleValueCount(baseSettings.maxVisibleValueCount);
+            }
+        } 
         if('Legend' in this.lineChartArgs){
             let legend = this._android.getLegend();
             let legendArgs = this.lineChartArgs.Legend;
@@ -306,8 +420,6 @@ export class LineChart extends View {
             YAxis.setZeroLineColor(resolveColor(yAxisArgs.zeroLineColor));
         }
     }
-
-    constructor(private lineChartArgs:ILineChart) {
-        super();
-    }
+//}
+    
 }

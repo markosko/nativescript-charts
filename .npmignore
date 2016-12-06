@@ -5,3 +5,6 @@ demo/
 *.ts
 !*.d.ts
 .vscode/
+.git/
+tsconfig.json
+demo_examples_img/

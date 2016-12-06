@@ -15,7 +15,7 @@
       "nativescript-charts.common.ts",
       "nativescript-charts.android.ts", 
       "nativescript-charts.ios.ts",
-      "line-chart/index.android.ts"
+      "line-chart/line-chart.android.ts"
       
     ],
     "compileOnSave": true,

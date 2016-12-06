@@ -1,6 +1,6 @@
 {
   "name": "nativescript-charts",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Your awesome NativeScript plugin.",
   "main": "nativescript-charts.js",
   "typings": "index.d.ts",
@@ -17,7 +17,8 @@
     "preparedemo": "npm run build && cd demo && tns plugin remove nativescript-nativescript-charts && tns plugin add .. && tns install",
     "setup": "npm i && cd demo && npm i && cd .. && npm run build && cd demo && tns plugin add .. && cd ..",
     "postclone": "npm i && node scripts/postclone.js",
-    "rebuild":"tsc && cd demo && tns plugin remove nativescript-charts && tns plugin add .. && tns platform clean android && tns run android"
+    "rebuild":"tsc && cd demo && tns plugin remove nativescript-charts && tns plugin add .. && tns platform clean android && tns run android",
+    "run.android":"cd demo && tns run android"
   },
   "repository": {
     "type": "git",
