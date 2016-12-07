@@ -224,82 +224,92 @@ export class LineChart extends LineChartCommon {
                 chart.setBackgroundColor(resolveColor(baseSettings.backgroundColor));
             }
             if('enabledDescription' in baseSettings){
-                chart.getDescription().setEnabled(baseSettings.enabledDescription);
+                if(typeof baseSettings.enabledDescription == "boolean")
+                    chart.getDescription().setEnabled(baseSettings.enabledDescription);
             }
             if('description' in baseSettings){
-                chart.getDescription().setText(baseSettings.description);
+                if(typeof baseSettings.description=="string")
+                    chart.getDescription().setText(baseSettings.description);
             }
             if('descriptionColor' in baseSettings){
                 chart.getDescription().setTextColor(baseSettings.descriptionColor);
             }
             if('descriptionPosition' in baseSettings){
-                if(typeof baseSettings.descriptionPosition.x != "undefined" && typeof baseSettings.descriptionPosition.y != "undefined")
+                if(typeof baseSettings.descriptionPosition.x != "undefined" && baseSettings.descriptionPosition.x > 0 &&
+                     typeof baseSettings.descriptionPosition.y != "undefined" && baseSettings.descriptionPosition.y > 0
+                )
                     chart.getDescription().setPosition(baseSettings.descriptionPosition.x,baseSettings.descriptionPosition.y)
             }
             if('descriptionTextSize' in baseSettings){
-                chart.getDescription().setTextSize(baseSettings.descriptionTextSize);
+                if(baseSettings.descriptionTextSize > 0)
+                    chart.getDescription().setTextSize(baseSettings.descriptionTextSize);
             }
             if('noDataText' in baseSettings){
-                chart.setNoDataText(baseSettings.noDataText);
+                if(typeof baseSettings.noDataText=="string")chart.setNoDataText(baseSettings.noDataText);
             }
             if('drawGridBackground' in baseSettings){
-                chart.setDrawGridBackground(baseSettings.drawGridBackground);
+                if(typeof baseSettings.drawGridBackground=="boolean")chart.setDrawGridBackground(baseSettings.drawGridBackground);
             }
             if('gridBackgroundColor' in baseSettings){
                 chart.setGridBackgroundColor(resolveColor(baseSettings.gridBackgroundColor));
             }
             if('drawBorders' in baseSettings){
-                chart.setDrawBorders(baseSettings.drawBorders);
+                if(typeof baseSettings.drawBorders=="boolean")chart.setDrawBorders(baseSettings.drawBorders);
             }
             if('borderColor' in baseSettings){
                 chart.setBorderColor(resolveColor(baseSettings.borderColor));
             }
             if('borderWidth' in baseSettings){
-                chart.setBorderWidth(baseSettings.borderWidth);
+                if(baseSettings.borderWidth > 0)
+                    chart.setBorderWidth(baseSettings.borderWidth);
             }
             if('maxVisibleValueCount' in baseSettings){
-                chart.setMaxVisibleValueCount(baseSettings.maxVisibleValueCount);
+                if(baseSettings.maxVisibleValueCount > 0)
+                    chart.setMaxVisibleValueCount(baseSettings.maxVisibleValueCount);
             }
         } 
         if('Legend' in this.lineChartArgs){
             let legend = this._android.getLegend();
             let legendArgs = this.lineChartArgs.Legend;
             if('enabled' in legendArgs){
-                legend.setEnabled(legendArgs.enabled);
+                if(typeof legendArgs.enabled=="boolean")legend.setEnabled(legendArgs.enabled);
             }
             if('textColor' in legendArgs){
                 legend.setTextColor(resolveColor(legendArgs.textColor));
             }
             if('wordWrap' in legendArgs){
-                legend.setWordWrap(legendArgs.wordWrap);
+                if(typeof legendArgs.wordWrap=="boolean")legend.setWordWrap(legendArgs.wordWrap);
             }
             if('maxSize' in legendArgs){
-                legend.setMaxSize(legendArgs.maxSize);
+                if(legendArgs.maxSize>0)legend.setMaxSize(legendArgs.maxSize);
+            }
+            if('form' in legendArgs){
+                legend.setForm(legendArgs.form);
             }
         }
         if('XAxis' in this.lineChartArgs){
             let xAxisArgs = this.lineChartArgs.XAxis
             let XAxis = this._android.getXAxis();
             if('enabled' in xAxisArgs){
-                XAxis.setEnabled(xAxisArgs.enabled);
+                if(typeof xAxisArgs.enabled=="boolean")XAxis.setEnabled(xAxisArgs.enabled);
             }
             if('drawLabels' in xAxisArgs){
-                XAxis.setDrawLabels(xAxisArgs.drawLabels);
+                if(typeof xAxisArgs.drawLabels=="boolean")XAxis.setDrawLabels(xAxisArgs.drawLabels);
             }
             if('drawAxisLine' in xAxisArgs){
-                XAxis.setDrawAxisLine(xAxisArgs.drawAxisLine);
+                if(typeof xAxisArgs.drawAxisLine=="boolean")XAxis.setDrawAxisLine(xAxisArgs.drawAxisLine);
             }
             if('drawGridLines' in xAxisArgs){
-                XAxis.setDrawGridLines(xAxisArgs.drawGridLines);
+                if(typeof xAxisArgs.drawGridLines=="boolean")XAxis.setDrawGridLines(xAxisArgs.drawGridLines);
             }
             if('axisMaximum' in xAxisArgs){
-                XAxis.setAxisMaximum(xAxisArgs.axisMaximum);
+                if(typeof xAxisArgs.axisMaximum=="boolean")XAxis.setAxisMaximum(xAxisArgs.axisMaximum);
             }
             if('axisMinimum' in xAxisArgs){
-                XAxis.setAxisMinimum(xAxisArgs.axisMinimum);
+                if(typeof xAxisArgs.axisMinimum=="boolean")XAxis.setAxisMinimum(xAxisArgs.axisMinimum);
             }
             if('inverted' in xAxisArgs){
-                XAxis.setInverted(xAxisArgs.inverted);
+               if(typeof xAxisArgs.inverted=="boolean")XAxis.setInverted(xAxisArgs.inverted);
             }
             /*if('spaceTop' in xAxisArgs){
                 if(xAxisArgs.spaceTop <= 100 && xAxisArgs.spaceTop >= 0) XAxis.setSpaceTop(xAxisArgs.spaceTop);
@@ -308,30 +318,32 @@ export class LineChart extends LineChartCommon {
                 if(xAxisArgs.spaceBottom <= 100 && xAxisArgs.spaceBottom >= 0) XAxis.setSpaceBottom(xAxisArgs.spaceBottom);
             }*/
             if('showOnlyMinMax' in xAxisArgs){
-                XAxis.setShowOnlyMinMax(xAxisArgs.showOnlyMinMax);
+                if(typeof xAxisArgs.inverted=="boolean")XAxis.setShowOnlyMinMax(xAxisArgs.showOnlyMinMax);
             }
             if('labelCount' in xAxisArgs){
-                XAxis.setLabelCount(xAxisArgs.labelCount.count,xAxisArgs.labelCount.force);
+                if(xAxisArgs.labelCount.count>0 && typeof xAxisArgs.labelCount.count != "undefined" && typeof xAxisArgs.labelCount.force == "boolean")
+                    XAxis.setLabelCount(xAxisArgs.labelCount.count,xAxisArgs.labelCount.force);
             }
             if('granularity' in xAxisArgs){
-                XAxis.setGranularity(xAxisArgs.granularity);
+                if(xAxisArgs.granularity>0)XAxis.setGranularity(xAxisArgs.granularity);
             }
             if('granularityEnabled' in xAxisArgs){
-                XAxis.setGranularityEnabled(xAxisArgs.granularityEnabled);
+                if(typeof xAxisArgs.granularityEnabled=="boolean")XAxis.setGranularityEnabled(xAxisArgs.granularityEnabled);
             }
             if('textColor' in xAxisArgs){
                 XAxis.setTextColor(resolveColor(xAxisArgs.textColor));
             }
             if('textSize' in xAxisArgs){
-                XAxis.setTextSize(xAxisArgs.textSize);
+                if(xAxisArgs.textSize > 0)XAxis.setTextSize(xAxisArgs.textSize);
             }
             if('gridColor' in xAxisArgs){
                 XAxis.setGridColor(resolveColor(xAxisArgs.gridColor));
             }
             if('gridLineWidth' in xAxisArgs){
-                XAxis.setGridLineWidth(xAxisArgs.gridLineWidth);
+                if(xAxisArgs.textSize > 0)XAxis.setGridLineWidth(xAxisArgs.gridLineWidth);
             }
             if('enableGridDashedLine' in xAxisArgs){
+                if(xAxisArgs.enableGridDashedLine.lineLength>0 && xAxisArgs.enableGridDashedLine.spaceLength>0 && xAxisArgs.enableGridDashedLine.phase>0)
                 XAxis.enableGridDashedLine(xAxisArgs.enableGridDashedLine.lineLength, xAxisArgs.enableGridDashedLine.spaceLength, xAxisArgs.enableGridDashedLine.phase);
             }
             if('position' in xAxisArgs){
@@ -354,16 +366,16 @@ export class LineChart extends LineChartCommon {
     }
     private setYAxis(yAxisArgs,YAxis){
         if('enabled' in yAxisArgs){
-            YAxis.setEnabled(yAxisArgs.enabled);
+            if(typeof yAxisArgs.enabled=="boolean")YAxis.setEnabled(yAxisArgs.enabled);
         }
         if('drawLabels' in yAxisArgs){
-            YAxis.setDrawLabels(yAxisArgs.drawLabels);
+            if(typeof yAxisArgs.drawLabels=="boolean")YAxis.setDrawLabels(yAxisArgs.drawLabels);
         }
         if('drawAxisLine' in yAxisArgs){
-            YAxis.setDrawAxisLine(yAxisArgs.drawAxisLine);
+            if(typeof yAxisArgs.drawLabels=="boolean")YAxis.setDrawAxisLine(yAxisArgs.drawAxisLine);
         }
         if('drawGridLines' in yAxisArgs){
-            YAxis.setDrawGridLines(yAxisArgs.drawGridLines);
+            if(typeof yAxisArgs.drawLabels=="boolean")YAxis.setDrawGridLines(yAxisArgs.drawGridLines);
         }
         if('axisMaximum' in yAxisArgs){
             YAxis.setAxisMaximum(yAxisArgs.axisMaximum);
@@ -372,7 +384,7 @@ export class LineChart extends LineChartCommon {
             YAxis.setAxisMinimum(yAxisArgs.axisMinimum);
         }
         if('inverted' in yAxisArgs){
-            YAxis.setInverted(yAxisArgs.inverted);
+            if(typeof yAxisArgs.drawLabels=="boolean")YAxis.setInverted(yAxisArgs.inverted);
         }
         if('spaceTop' in yAxisArgs){
             if(yAxisArgs.spaceTop <= 100 && yAxisArgs.spaceTop >= 0) YAxis.setSpaceTop(yAxisArgs.spaceTop);
@@ -381,40 +393,42 @@ export class LineChart extends LineChartCommon {
             if(yAxisArgs.spaceBottom <= 100 && yAxisArgs.spaceBottom >= 0) YAxis.setSpaceBottom(yAxisArgs.spaceBottom);
         }
         if('showOnlyMinMax' in yAxisArgs){
-            YAxis.setShowOnlyMinMax(yAxisArgs.showOnlyMinMax);
+            if(typeof yAxisArgs.drawLabels=="boolean")YAxis.setShowOnlyMinMax(yAxisArgs.showOnlyMinMax);
         }
         if('labelCount' in yAxisArgs){
+            if(yAxisArgs.labelCount.count && yAxisArgs.labelCount.count > 0 && typeof yAxisArgs.labelCount.force=="boolean")
             YAxis.setLabelCount(yAxisArgs.labelCount.count,yAxisArgs.labelCount.force);
         }
         if('granularity' in yAxisArgs){
-            YAxis.setGranularity(yAxisArgs.granularity);
+            if(yAxisArgs.granularity > 0) YAxis.setGranularity(yAxisArgs.granularity);
         }
         if('granularityEnabled' in yAxisArgs){
-            YAxis.setGranularityEnabled(yAxisArgs.granularityEnabled);
+            if(typeof yAxisArgs.drawLabels=="boolean")YAxis.setGranularityEnabled(yAxisArgs.granularityEnabled);
         }
         if('textColor' in yAxisArgs){
             YAxis.setTextColor(resolveColor(yAxisArgs.textColor));
         }
         if('textSize' in yAxisArgs){
-            YAxis.setTextSize(yAxisArgs.textSize);
+            if(yAxisArgs.textSize > 0)YAxis.setTextSize(yAxisArgs.textSize);
         }
         if('gridColor' in yAxisArgs){
             YAxis.setGridColor(resolveColor(yAxisArgs.gridColor));
         }
         if('gridLineWidth' in yAxisArgs){
-            YAxis.setGridLineWidth(yAxisArgs.gridLineWidth);
+            if(yAxisArgs.gridLineWidth > 0)YAxis.setGridLineWidth(yAxisArgs.gridLineWidth);
         }
         if('enableGridDashedLine' in yAxisArgs){
+            if(yAxisArgs.enableGridDashedLine.lineLength > 0 && yAxisArgs.enableGridDashedLine.spaceLength > 0 && yAxisArgs.enableGridDashedLine.phase > 0)
             YAxis.enableGridDashedLine(yAxisArgs.enableGridDashedLine.lineLength, yAxisArgs.enableGridDashedLine.spaceLength, yAxisArgs.enableGridDashedLine.phase);
         }
         if('position' in yAxisArgs){
             YAxis.setPosition(yAxisArgs.position);
         }
         if('drawZeroLine' in yAxisArgs){
-            YAxis.setDrawZeroLine(yAxisArgs.drawZeroLine);
+            if(typeof yAxisArgs.drawZeroLine=="boolean")YAxis.setDrawZeroLine(yAxisArgs.drawZeroLine);
         }
         if('zeroLineWidth' in yAxisArgs){
-            YAxis.setZeroLineWidth(yAxisArgs.zeroLineWidth);
+            if(yAxisArgs.zeroLineWidth > 0)YAxis.setZeroLineWidth(yAxisArgs.zeroLineWidth);
         }
         if('zeroLineColor' in yAxisArgs){
             YAxis.setZeroLineColor(resolveColor(yAxisArgs.zeroLineColor));

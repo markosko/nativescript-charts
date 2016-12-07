@@ -84,7 +84,7 @@ export class LineChartCommon extends View {
     constructor(protected lineChartArgs:ILineChart) {
         super();
     }
-    protected resolveColors(color){
+    protected resolveColor(color){
         return resolveColor(color);
     }
 
@@ -102,27 +102,34 @@ export class LineChartCommon extends View {
             colors=null;
         }
         if('valueTextSize' in lineData){
-            dataset.setValueTextSize(lineData.valueTextSize);
+            if(lineData.valueTextSize>0)
+                dataset.setValueTextSize(lineData.valueTextSize);
         }
         if('drawValues' in lineData){
-            dataset.setDrawValues(lineData.drawValues);
+            if(typeof lineData.drawValues=="boolean")
+                dataset.setDrawValues(lineData.drawValues);
         }
         if('highlightEnabled' in lineData){
+            if(typeof lineData.highlightEnabled=="boolean")
             dataset.setHighlightEnabled(lineData.highlightEnabled);
         }
         if('drawVerticalHighlightIndicator' in lineData){
+            if(typeof lineData.drawVerticalHighlightIndicator=="boolean")
             dataset.setDrawVerticalHighlightIndicator(lineData.drawVerticalHighlightIndicator);
         }
         if('drawHorizontalHighlightIndicator' in lineData){
+            if(typeof lineData.drawHorizontalHighlightIndicator=="boolean")
             dataset.setDrawHorizontalHighlightIndicator(lineData.drawHorizontalHighlightIndicator);
         }
         if('highLightColor' in lineData){
             dataset.setHighLightColor(resolveColor(lineData.highLightColor));
         }
         if('drawHighlightIndicators' in lineData){
+            if(typeof lineData.drawHighlightIndicators=="boolean")
             dataset.setDrawHighlightIndicators(lineData.drawHighlightIndicators);
         }
         if('highlightLineWidth' in lineData){
+            if(lineData.highlightLineWidth>0)
             dataset.setHighlightLineWidth(lineData.highlightLineWidth);
         }
         if('fillColor' in lineData){
@@ -134,12 +141,15 @@ export class LineChartCommon extends View {
             }
         }
         if('drawFilled' in lineData){
+            if(typeof lineData.drawFilled=="boolean")
             dataset.setDrawFilled(lineData.drawFilled);
         }
         if('lineWidth' in lineData){
+            if(lineData.lineWidth>0)
             dataset.setLineWidth(lineData.lineWidth);
         }
         if('circleRadius' in lineData){
+            if(lineData.circleRadius>0)
             dataset.setCircleRadius(lineData.circleRadius);
         }
         if('circleColor' in lineData){
@@ -149,9 +159,11 @@ export class LineChartCommon extends View {
             dataset.setCircleColorHole(resolveColor(lineData.circleColorHole));
         }
         if('drawCircleHole' in lineData){
+            if(typeof lineData.drawCircleHole=="boolean")
             dataset.setDrawCircleHole(lineData.drawCircleHole);
         }
         if('enableDashedLine' in lineData){
+            if(lineData.enableDashedLine.lineLength>0 && lineData.enableDashedLine.spaceLength>0 && lineData.enableDashedLine.phase>0)
             dataset.enableDashedLine(lineData.enableDashedLine.lineLength, lineData.enableDashedLine.spaceLength, lineData.enableDashedLine.phase);
         }
 
