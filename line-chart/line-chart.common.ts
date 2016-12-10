@@ -4,6 +4,7 @@ import { BaseChartSettings } from "../components/chart";
 import { Dataset } from "../components/dataset";
 import { resolveColor } from "../helper";
 import { View } from "ui/core/view";
+import { Observable } from "data/observable";
 import { PropertyMetadata } from "ui/core/proxy";
 import { Property, PropertyMetadataSettings } from "ui/core/dependency-observable";
 
@@ -69,16 +70,22 @@ export class LineChartCommon extends View {
         return this._getValue(LineChartCommon.chartSettingsProperty);
     }
     set chartSettings(value: ILineChart) {
-        console.dump(value);
+        //console.dump(value);
+        //this.notify({eventName:"chartSettingsProperty",:value});
+        //this.notifyPropertyChange("chartSettingsProperty",value);
+         
         this._setValue(LineChartCommon.chartSettingsProperty, value);
+        //this.notify({ object: this, eventName: Observable.propertyChangeEvent, propertyName: chartSettingsProperty, value: value });
     }
 
     get chartData(): Array<ILineSeries> {
         return this._getValue(LineChartCommon.chartDataProperty);
     }
     set chartData(value: Array<ILineSeries>) {
-        console.dump(value);
+        //console.dump(value);
+        //this.notifyPropertyChange("chartDataProperty",value);
         this._setValue(LineChartCommon.chartDataProperty, value);
+        //this.notify({ object: this, eventName: Observable.propertyChangeEvent, propertyName: chartDataProperty, value: value });
     }
 
     constructor(protected lineChartArgs:ILineChart) {

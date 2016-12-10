@@ -3,7 +3,7 @@ import * as pages from "ui/page";
 import colorModule = require("color");
 
 var Color = colorModule.Color;
-import {LineChart,LegendHorizontalAlignment,XPosition,YPosition,ILineChart,ILineSeries}  from "nativescript-charts/line-chart";
+import {LineChart,LegendHorizontalAlignment,XPosition,YPosition,ILineChart,ILineSeries,LegendForm}  from "nativescript-charts/line-chart";
 //LineChart.LegendHorizontalAlignment;
 //import * as legend from "nativescript-charts/components/legend";
 
@@ -15,7 +15,7 @@ declare var Array:any;
 var line;
 var graph1;
 var i=0;
-var obj=new observable.Observable({
+var obj=observable.fromObjectRecursive({
     chartSettings:{},
     chartData:{}
 });
@@ -31,20 +31,24 @@ export function pageLoaded(args: observable.EventData) {
     //console.log(1)
     var linechartOpts:ILineChart={
         Legend:{
-            enabled:true
+            enabled:true,
+            form:LegendForm.CIRCLE,
         },
         XAxis:{
             textSize:12,
-            textColor:"green"
-            /*position:XPosition.BOTTOM*/            
+            textColor:"green",
+            position:XPosition.TOP,
+                    
         },
         RightYAxis:{
             textSize:15,
-            textColor:"blue"
+            textColor:"blue",
+            position:YPosition.INSIDE_CHART
         },
         LeftYAxis:{
             textSize:20,
-            textColor:"red"
+            textColor:"red",
+            position:YPosition.OUTSIDE_CHART
         },
         BaseSettings:{
             //backgroundColor:"black",
@@ -57,7 +61,7 @@ export function pageLoaded(args: observable.EventData) {
     graph1=<LineChart>page.getViewById("graph1");
     line = <LineChart>(new LineChart(linechartOpts));
     //console.log(2)
-    line.height=400;
+    line.height=300;
     //console.log(3)
     StackLayout.addChild(line);
     //console.log(4)
@@ -92,6 +96,11 @@ export function pageLoaded(args: observable.EventData) {
     line.addLine(lineData2);
     obj.set("chartSettings",linechartOpts);
     obj.set("chartData",[lineData,lineData2]);
+    //line.chartSettings((<any>obj).lineChartOpts);
+    console.dump(line.chartSettings);
+    line.set('chartSettings',(<any>obj).chartSettings);
+    //console.dump(line);
+    console.dump(line.chartSettings);
     page.bindingContext=obj;
 
     //graph1.addLine(lineData2);
@@ -141,29 +150,29 @@ export function clearGraph(args: observable.EventData){
 export function editSettings(args: observable.EventData){
     let page = <pages.Page>args.object;
     boolValue=!boolValue;
-    var linechartOpts:ILineChart={
+    var linechartOpts:ILineChart=observable.fromObjectRecursive({
         Legend:{
             enabled:boolValue
         },
         XAxis:{
-            textSize:12,
-            textColor:"green"
+            textSize:(Math.random()*10) + 1,
+            textColor:Math.floor((Math.random()*16777215) - 16777216)
             /*position:XPosition.BOTTOM*/            
         },
         RightYAxis:{
-            textSize:20,
-            textColor:"blue"
+            textSize:(Math.random()*10) + 1,
+            textColor:Math.floor((Math.random()*16777215) - 16777216)
         },
         LeftYAxis:{
-            textSize:10,
-            textColor:"red"
+            textSize:(Math.random()*10) + 1,
+            textColor:Math.floor((Math.random()*16777215) - 16777216)
         },
         BaseSettings:{
             //backgroundColor:"black",
-            enabledDescription:false,
+            enabledDescription:boolValue,
             description:"POMOOOOOOOOOOOOOOOOOC",
             noDataText:"Nemame data"
         }
-    };
+    });
     obj.set("chartSettings",linechartOpts);
 }

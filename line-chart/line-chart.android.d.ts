@@ -8,9 +8,9 @@ export declare class LineChart extends LineChartCommon {
     invalidate(): void;
     clear(): void;
     clearData(): void;
-    setLineChartArgs(lineChartArgs: ILineChart): void;
+    setChartSettings(lineChartArgs: ILineChart): void;
     addLine(lineData: ILineSeries): void;
-    setData(chartData: Array<ILineSeries>): void;
+    setChartData(chartData: Array<ILineSeries>): void;
     getXAxis(): any;
     getRightYAxis(): any;
     getLeftYAxis(): any;

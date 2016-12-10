@@ -1,14 +1,13 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" xmlns:LineChart="nativescript-charts/line-chart">
-  <StackLayout>
-    <StackLayout id="lay" height="50%">
+    <StackLayout>
+      <StackLayout id="lay">
+      </StackLayout>
+      <LineChart:LineChart id="graph1" height="400" chartSettings="{{chartSettings}}" chartData="{{chartData}}"/>
+      <StackLayout orientation="horizontal">
+        <Button text="clearData" tap="clearData"></Button>
+        <Button text="clearGraph" tap="clearGraph"></Button>
+        <Button text="addLine" tap="addLine"></Button>
+        <Button text="editSettings" tap="editSettings"></Button>
+      </StackLayout>
     </StackLayout>
-    <LineChart:LineChart id="graph1" height="400" chartSettings="{{chartSettings}}" chartData="{{chartData}}"/>
-    <StackLayout orientation="horizontal">
-      <Button text="clearData" tap="clearData"></Button>
-      <Button text="clearGraph" tap="clearGraph"></Button>
-      <Button text="addLine" tap="addLine"></Button>
-      <Button text="editSettings" tap="editSettings"></Button>
-    </StackLayout>
-  </StackLayout>
-  
 </Page>

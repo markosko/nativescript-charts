@@ -2,15 +2,15 @@ declare var com;
 //let cLegend = com.github.mikephil.charting.components.Legends;
 
 export enum YPosition{
-     OUTSIDE_CHART = com.github.mikephil.charting.components.YAxis.OUTSIDE_CHART,
-     INSIDE_CHART = com.github.mikephil.charting.components.YAxis.BOTTOM_INSIDE
+     OUTSIDE_CHART = com.github.mikephil.charting.components.YAxis.YAxisLabelPosition.OUTSIDE_CHART,
+     INSIDE_CHART = com.github.mikephil.charting.components.YAxis.YAxisLabelPosition.INSIDE_CHART
 }
 export enum XPosition{
-     TOP = com.github.mikephil.charting.components.XAxis.TOP,
-     BOTTOM = com.github.mikephil.charting.components.XAxis.BOTTOM,
-     BOTH_SIDED = com.github.mikephil.charting.components.XAxis.BOTH_SIDED,
-     TOP_INSIDE = com.github.mikephil.charting.components.XAxis.TOP_INSIDE,
-     BOTTOM_INSIDE = com.github.mikephil.charting.components.XAxis.BOTTOM_INSIDE
+     TOP = com.github.mikephil.charting.components.XAxis.XAxisPosition.TOP,
+     BOTTOM = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM,
+     BOTH_SIDED = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTH_SIDED,
+     TOP_INSIDE = com.github.mikephil.charting.components.XAxis.XAxisPosition.TOP_INSIDE,
+     BOTTOM_INSIDE = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM_INSIDE
 }
 /*export enum YSide{
     LEFT,

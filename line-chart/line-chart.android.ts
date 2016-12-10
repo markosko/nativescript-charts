@@ -1,11 +1,20 @@
-import {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis,LineChartCommon} from "./line-chart.common";
+import {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis,LineChartCommon} 
+    from "./line-chart.common";
 export {ILineSeries,IPoint,LegendForm,LegendHorizontalAlignment,LegendVerticalAlignment,ILineChart,XPosition,YPosition,Axis,XAxis,RightYAxis,LeftYAxis}
 import {Color} from "color";
 import { PropertyChangeData } from "ui/core/dependency-observable";
 import { PropertyMetadata } from "ui/core/proxy";
 import {resolveColor} from "../helper";
-//global.moduleMerge(common, exports);
+declare var com:any;
+declare var java:any;
 
+var LineDataSet =     com.github.mikephil.charting.data.LineDataSet;
+var LineData =        com.github.mikephil.charting.data.LineData;
+var Entry =           com.github.mikephil.charting.data.Entry;
+var ArrayList =       java.util.ArrayList;
+var Legend =          com.github.mikephil.charting.components.Legend;
+var YAxisPosition = com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
+var XAxisPosition = com.github.mikephil.charting.components.XAxis.XAxisPosition;
 
 
 function onChartSettingsPropertyChanged(data: PropertyChangeData) {
@@ -13,7 +22,7 @@ function onChartSettingsPropertyChanged(data: PropertyChangeData) {
     if (!LineChart.android) {
         return;
     }
-    LineChart.setLineChartArgs(data.newValue);
+    LineChart.setChartSettings(data.newValue);
     console.log("Chart settings changed.");
     //console.dump(data);
     /*.setPenColor(new Color(data.newValue).android)*/;
@@ -24,7 +33,7 @@ function onChartDataPropertyChanged(data: PropertyChangeData) {
     if (!LineChart.android) {
         return;
     }
-    LineChart.setData(<Array<ILineSeries>>data.newValue);
+    LineChart.setChartData(<Array<ILineSeries>>data.newValue);
     console.log("Chart settings changed.");
     //console.dump(data);
     /*.setPenColor(new Color(data.newValue).android)*/;
@@ -34,14 +43,8 @@ function onChartDataPropertyChanged(data: PropertyChangeData) {
 (<PropertyMetadata>LineChartCommon.chartSettingsProperty.metadata).onSetNativeValue = onChartSettingsPropertyChanged;
 (<PropertyMetadata>LineChartCommon.chartDataProperty.metadata).onSetNativeValue = onChartDataPropertyChanged;
 
-declare var com:any;
-declare var java:any;
 
-var LineDataSet =     com.github.mikephil.charting.data.LineDataSet;
-var LineData =        com.github.mikephil.charting.data.LineData;
-var Entry =           com.github.mikephil.charting.data.Entry;
-var ArrayList =       java.util.ArrayList;
-var Legend =          com.github.mikephil.charting.components.Legend;
+//var Form=com.github.mikephil.charting.components.Legend.LegendForm;
 export class LineChart extends LineChartCommon {
     private _android: any;
 
@@ -54,6 +57,10 @@ export class LineChart extends LineChartCommon {
     get _nativeView() { return this._android; }
     
 
+    //set chartSettings(value: ILineChart) {
+        //super();
+        //this._setValue(LineChartCommon.chartSettingsProperty, value);
+    //}
 
     //how we create the UI of our View
     public _createUI() {
@@ -79,7 +86,7 @@ export class LineChart extends LineChartCommon {
         }
     }
     
-    public setLineChartArgs(lineChartArgs:ILineChart){
+    public setChartSettings(lineChartArgs:ILineChart){
         this.lineChartArgs=lineChartArgs;
         this.setChart();
         this._nativeView.notifyDataSetChanged();
@@ -110,7 +117,7 @@ export class LineChart extends LineChartCommon {
         this.invalidate();
     }
 
-    public setData(chartData:Array<ILineSeries>){
+    public setChartData(chartData:Array<ILineSeries>){
         if(typeof chartData == "undefined" || chartData == {} || chartData.length==0)
             return ;
         var lineDatasets = new ArrayList();
@@ -284,7 +291,7 @@ export class LineChart extends LineChartCommon {
                 if(legendArgs.maxSize>0)legend.setMaxSize(legendArgs.maxSize);
             }
             if('form' in legendArgs){
-                legend.setForm(legendArgs.form);
+                legend.setForm(Legend.LegendForm.valueOf(legendArgs.form));
             }
         }
         if('XAxis' in this.lineChartArgs){
@@ -347,7 +354,7 @@ export class LineChart extends LineChartCommon {
                 XAxis.enableGridDashedLine(xAxisArgs.enableGridDashedLine.lineLength, xAxisArgs.enableGridDashedLine.spaceLength, xAxisArgs.enableGridDashedLine.phase);
             }
             if('position' in xAxisArgs){
-                XAxis.setPosition(xAxisArgs.position);
+                XAxis.setPosition(XAxisPosition.valueOf(xAxisArgs.position));
             }
             if('labelRotationAngle' in xAxisArgs){
                 XAxis.setLabelRotationAngle(xAxisArgs.labelRotationAngle);
@@ -422,7 +429,7 @@ export class LineChart extends LineChartCommon {
             YAxis.enableGridDashedLine(yAxisArgs.enableGridDashedLine.lineLength, yAxisArgs.enableGridDashedLine.spaceLength, yAxisArgs.enableGridDashedLine.phase);
         }
         if('position' in yAxisArgs){
-            YAxis.setPosition(yAxisArgs.position);
+            YAxis.setPosition(YAxisPosition.valueOf(yAxisArgs.position));
         }
         if('drawZeroLine' in yAxisArgs){
             if(typeof yAxisArgs.drawZeroLine=="boolean")YAxis.setDrawZeroLine(yAxisArgs.drawZeroLine);

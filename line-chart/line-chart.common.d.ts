@@ -45,6 +45,6 @@ export declare class LineChartCommon extends View {
     chartSettings: ILineChart;
     chartData: Array<ILineSeries>;
     constructor(lineChartArgs: ILineChart);
-    protected resolveColors(color: any): number;
+    protected resolveColor(color: any): number;
     protected setDataset(dataset: any, lineData: any): void;
 }
