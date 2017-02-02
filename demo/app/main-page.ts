@@ -12,8 +12,8 @@ declare var com:any;
 declare var java:any;
 declare var Array:any;
 
-var line;
-var graph1;
+var line:LineChart;
+var graph1:LineChart;
 var i=0;
 var obj=observable.fromObjectRecursive({
     chartSettings:{},
@@ -29,57 +29,175 @@ export function pageLoaded(args: observable.EventData) {
     
     var StackLayout:any=page.getViewById("lay");
     //console.log(1)
-    var linechartOpts:ILineChart={
+    var linechartOpts:ILineChart= <ILineChart>{
         Legend:{
-            enabled:true,
+            enabled:false,
             form:LegendForm.CIRCLE,
         },
         XAxis:{
             textSize:12,
             textColor:"green",
             position:XPosition.TOP,
-                    
+            axisMinimum:-30,
+            axisMaximum:30,
+            drawGridLines:false,
+            showOnlyMinMax:false,
+            enabled:true
         },
         RightYAxis:{
-            textSize:15,
-            textColor:"blue",
-            position:YPosition.INSIDE_CHART
+            textSize:10,
+            textColor:"green",
+            position:YPosition.OUTSIDE_CHART,
+            axisMaximum:120,
+            axisMinimum:-10,
+            showOnlyMinMax:false,
+            drawGridLines:false,
+            enabled:true
         },
         LeftYAxis:{
-            textSize:20,
-            textColor:"red",
-            position:YPosition.OUTSIDE_CHART
+            textSize:10,
+            textColor:"green",
+            position:YPosition.OUTSIDE_CHART,
+            axisMaximum:120,
+            axisMinimum:-10,
+            showOnlyMinMax:false,
+            drawGridLines:false,
+            enabled:true
         },
         BaseSettings:{
             //backgroundColor:"black",
             enabledDescription:false,
-            description:"POMOOOOOOOOOOOOOOOOOC",
-            noDataText:"Nemame data"
+            drawGridBackground:false,
         }
-    }
+    };
     
     graph1=<LineChart>page.getViewById("graph1");
     line = <LineChart>(new LineChart(linechartOpts));
     //console.log(2)
-    line.height=300;
+    line.height=700;
     //console.log(3)
     StackLayout.addChild(line);
     //console.log(4)
-    var points  = [
-        {x:1,y:1},
-        {x:3,y:5},
-        {x:7,y:0},
-        {x:8,y:4.5},
-        {x:10,y:9}
-    ];
+    var chartData=[];
     
+    /*var points  = [
+        {x:-25,y:0},
+        {x:-25,y:25}  
+    ];
     var lineData = {
         lineData: points,
-        color:"red",
+        color:"green",
         name:"test"
-    };
+    };*/
+    chartData.push(addData(
+        {x:-30,y:0},{x:-30,y:0},true
+    ));
+    chartData.push(addData(
+        {x:30,y:0},{x:30,y:0},true
+    ));
+    chartData.push(addData(
+        {x:-5,y:0},
+        {x:-5,y:20}
+    ));
+    chartData.push(addData(
+        {x:-5,y:20},
+        {x:-25,y:20}
+    ));
+    chartData.push(addData(
+        {x:-25,y:20},
+        {x:-5,y:40}
+    ));
+    chartData.push(addData(
+        {x:-5,y:40},
+        {x:-20,y:40}
+    ));
+    chartData.push(addData(
+        {x:-20,y:40},
+        {x:-5,y:60}
+    ));
+    chartData.push(addData(
+        {x:-5,y:60},
+        {x:-15,y:60}
+    ));
+    chartData.push(addData(
+        {x:-15,y:60},
+        {x:-5,y:80}
+    ));
+    chartData.push(addData(
+        {x:-5,y:80},
+        {x:-10,y:80}
+    ));
+    chartData.push(addData(
+        {x:-10,y:80},
+        {x:0,y:100}
+    ));
+    chartData.push(addData(
+        {x:0,y:100},
+        {x:10,y:80}
+    ));
+    chartData.push(addData(
+        {x:10,y:80},
+        {x:5,y:80}
+    ));
+    chartData.push(addData(
+        {x:5,y:80},
+        {x:15,y:60}
+    ));
+    chartData.push(addData(
+        {x:15,y:60},
+        {x:5,y:60}
+    ));
+    chartData.push(addData(
+        {x:5,y:60},
+        {x:20,y:40}
+    ));
+    chartData.push(addData(
+        {x:20,y:40},
+        {x:5,y:40}
+    ));
+    chartData.push(addData(
+        {x:5,y:40},
+        {x:25,y:20}
+    ));
+    chartData.push(addData(
+        {x:25,y:20},
+        {x:5,y:20}
+    ));
+    chartData.push(addData(
+        {x:5,y:20},
+        {x:5,y:0}
+    ));
+    chartData.push(addData(
+        {x:5,y:0},
+        {x:-5,y:0}
+    ));
     //console.log(5)
-    line.addLine(lineData);
+    
+    var chartData2=[];
+    var counter = chartData.length;
+    var c=0;
+    line.setChartSettings(linechartOpts);
+    line.setChartData(chartData);
+    line.setChartSettings(linechartOpts);
+    /*var timer=setInterval(()=>{
+            chartData2.push(chartData[c]);
+            
+            line.setChartData(chartData2);            
+            
+            c++;
+            if(c==counter)clearInterval(timer);
+    },1000);*/
+
+    
+
+//    graph1.addLine(lineData);
+
+
+    //console.log(5)
+    //graph1.addLine(lineData);
+    
+
+
     var points2  = [
         {x:1,y:4},
         {x:3,y:5.9},
@@ -93,14 +211,14 @@ export function pageLoaded(args: observable.EventData) {
         name:"test",  
     };
     //console.log(6)
-    line.addLine(lineData2);
-    obj.set("chartSettings",linechartOpts);
-    obj.set("chartData",[lineData,lineData2]);
+    //line.addLine(lineData2);
+    //obj.set("chartSettings",linechartOpts);
+    //obj.set("chartData",[lineData,lineData2]);
     //line.chartSettings((<any>obj).lineChartOpts);
-    console.dump(line.chartSettings);
-    line.set('chartSettings',(<any>obj).chartSettings);
+    //console.dump(line.chartSettings);
+    //line.set('chartSettings',(<any>obj).chartSettings);
     //console.dump(line);
-    console.dump(line.chartSettings);
+    //console.dump(line.chartSettings);
     page.bindingContext=obj;
 
     //graph1.addLine(lineData2);
@@ -150,14 +268,15 @@ export function clearGraph(args: observable.EventData){
 export function editSettings(args: observable.EventData){
     let page = <pages.Page>args.object;
     boolValue=!boolValue;
-    var linechartOpts:ILineChart=observable.fromObjectRecursive({
+    //obj.
+    /*var linechartOpts:ILineChart=observable.fromObjectRecursive({
         Legend:{
             enabled:boolValue
         },
         XAxis:{
             textSize:(Math.random()*10) + 1,
             textColor:Math.floor((Math.random()*16777215) - 16777216)
-            /*position:XPosition.BOTTOM*/            
+            position:XPosition.BOTTOM      
         },
         RightYAxis:{
             textSize:(Math.random()*10) + 1,
@@ -173,6 +292,20 @@ export function editSettings(args: observable.EventData){
             description:"POMOOOOOOOOOOOOOOOOOC",
             noDataText:"Nemame data"
         }
-    });
-    obj.set("chartSettings",linechartOpts);
+    });*/
+    //obj.set("chartSettings",linechartOpts);
+}
+
+function addData(point,point2,hide=false){
+    return <ILineSeries>{
+        lineData: [point,point2],
+        color:(hide?"white":"green"),
+        name:"test",
+        lineWidth:3,
+        drawFilled:false,
+        circleColor:(hide?"white":"green"),
+        circleRadius:(hide?3:0),
+        drawCircleHole:false
+        //fillColor:"green"
+    };
 }

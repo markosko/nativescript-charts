@@ -120,6 +120,7 @@ export class LineChart extends LineChartCommon {
     public setChartData(chartData:Array<ILineSeries>){
         if(typeof chartData == "undefined" || chartData == {} || chartData.length==0)
             return ;
+        this.setChart();
         var lineDatasets = new ArrayList();
         chartData.forEach((lineSerie:ILineSeries)=>{
             var entries = new ArrayList();
@@ -295,7 +296,7 @@ export class LineChart extends LineChartCommon {
             }
         }
         if('XAxis' in this.lineChartArgs){
-            let xAxisArgs = this.lineChartArgs.XAxis
+            let xAxisArgs = this.lineChartArgs.XAxis;
             let XAxis = this._android.getXAxis();
             if('enabled' in xAxisArgs){
                 if(typeof xAxisArgs.enabled=="boolean")XAxis.setEnabled(xAxisArgs.enabled);

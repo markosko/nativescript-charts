@@ -2,7 +2,7 @@
     <StackLayout>
       <StackLayout id="lay">
       </StackLayout>
-      <LineChart:LineChart id="graph1" height="400" chartSettings="{{chartSettings}}" chartData="{{chartData}}"/>
+      <LineChart:LineChart id="graph1" chartSettings="{{chartSettings}}" chartData="{{chartData}}"/>
       <StackLayout orientation="horizontal">
         <Button text="clearData" tap="clearData"></Button>
         <Button text="clearGraph" tap="clearGraph"></Button>
