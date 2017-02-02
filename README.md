@@ -13,7 +13,7 @@ Add namespace `xmlns:LineChart="nativescript-charts/line-chart"`
 
 *chartSettings* are type of `ILineChart`
 
-*chartData* are type of `ILineSeries`
+*chartData* is type of `ILineSeries`
 
 Each point is object of `{x,y}`
 
