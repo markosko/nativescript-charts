@@ -12,8 +12,11 @@ Plugin for now contains Line chart type
 Add namespace `xmlns:LineChart="nativescript-charts/line-chart"` 
 
 *chartSettings* are type of `ILineChart`
+
 *chartData* are type of `ILineSeries`
+
 Each point is object of `{x,y}`
+
 Both can be imported from `nativescript-charts/line-chart` 
 
 ### Example for LineChart
