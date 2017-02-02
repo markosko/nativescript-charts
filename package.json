@@ -35,7 +35,10 @@
   "bugs": {
     "url": "https://github.com/markosko/nativescript-charts/issues"
   },
-  "license": "MIT",
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/markosko/nativescript-charts/blob/master/LICENSE"
+  },
   "homepage": "https://github.com/markosko/nativescript-charts",
   "devDependencies": {
     "tns-core-modules": "^2.2.1",
