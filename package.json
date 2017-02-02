@@ -31,19 +31,12 @@
     "nativescript-charts",
     "charts"
   ],
-  "author": {
-    "name": "Marek Maszay",
-    "email": "markosko.mm@gmail.com"
-  },
+  "author": "Marek Maszay <markosko.mm@gmail.com>",
   "bugs": {
     "url": "https://github.com/markosko/nativescript-charts/issues"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/markosko/nativescript-charts/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "homepage": "https://github.com/markosko/nativescript-charts",
-  "readmeFilename": "README.md",
   "devDependencies": {
     "tns-core-modules": "^2.2.1",
     "tns-platform-declarations": "^2.2.0",
@@ -51,8 +44,6 @@
     "prompt": "^1.0.0",
     "rimraf": "^2.5.0"
   },
-  "readme": "# Develop a NativeScript plugin now (w/ TypeScript)\r\n\r\n## Getting started\r\n\r\n1. `git clone https://github.com/NathanWalker/nativescript-seed.git myplugin`\r\n2. `npm install -g typescript`\r\n3. `cd myplugin`\r\n4. `npm run postclone`\r\n5. `npm run setup`\r\n6. Get to work.\r\n\r\nThis seed expands on several things [presented here](http://developer.telerik.com/featured/creating-nativescripts-in-typescript/).\r\n\r\n## Usage\r\n\r\nThe seed is prepared to allow you to test and try out your plugin via the `demo` folder.\r\nAdditionally it provides a proper `.gitignore` to keep GitHub tidy as well as `.npmignore` to ensure everyone is happy when you publish your plugin via npm.\r\n\r\n### Typical development workflow:\r\n\r\n1. Make changes to plugin files\r\n2. Make changes in `demo` that would test those changes out\r\n3. `npm run demo.ios` or `npm run demo.android`  **(must be run from the root directory)**\r\n\r\nThose `demo` tasks are just general helpers. You may want to have more granular control on the device and/or emulator you want to run. For that, you can just run things the manual way:\r\n\r\n```\r\ncd demo\r\n\r\n// when developing, to ensure the latest code is built into the demo, it's a guarantee to remove the plugin and add it back\r\ntns plugin remove nativescript-nativescript-charts\r\ntns plugin add ..\r\n\r\n// manual platform adds\r\ntns platform add ios\r\n// and/or\r\ntns platform add android\r\n```\r\n\r\nThen use any of the available options from the `tns` command line:\r\n\r\n* [Emulate your project](https://github.com/NativeScript/nativescript-cli#emulate-your-project)\r\n* [Run your project](https://github.com/NativeScript/nativescript-cli#run-your-project)\r\n* [Full list of commands](https://github.com/NativeScript/nativescript-cli#the-commands)\r\n\r\n## Publish\r\n\r\nWhen you have everything ready to publish:\r\n\r\n* Bump the version number in `package.json`\r\n* `npm run build` - **very important** - ensure the latest is built **before** you publish\r\n* `npm publish`\r\n\r\n## Contributing - Want to make the seed better?\r\n\r\nOr at least help keep it up to date with NativeScript releases, which would be excellent.\r\n\r\n```\r\nnpm install -g typescript  // if you don't already have it\r\ngit clone https://github.com/NathanWalker/nativescript-seed\r\ncd nativescript-seed\r\n\r\n// Improve!\r\n```\r\n",
-  "_id": "nativescript-charts@0.0.1",
   "_shasum": "37ad381b1ed77de29d59ce39fba540e38cc91d6d",
   "_from": "..",
   "_resolved": "file:.."
