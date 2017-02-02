@@ -78,6 +78,6 @@ var linechartOpts:ILineChart= <ILineChart>{
 ```xml
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" 
     xmlns:LineChart="nativescript-charts/line-chart">
-    <LineChart:LineChart  height="400" chartSettings="{{chartSettings}}" chartData="{{chartData}}"/>
+    <LineChart:LineChart  chartSettings="{{chartSettings}}" chartData="{{chartData}}"/>
 </Page>
 ```
