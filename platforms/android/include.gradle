@@ -13,5 +13,5 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0@aar'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1@aar'
 }
