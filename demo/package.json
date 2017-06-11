@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "nativescript-charts": "file:///D:\\Android\\AndroidPlugins\\MPAndroidChart\\myplugin",
+    "nativescript-charts": "..",
     "nativescript-dev-typescript": "^0.3.2",
     "tns-core-modules": "^2.5.0",
     "tns-platform-declarations": "^2.3.0"
